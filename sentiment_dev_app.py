@@ -16,7 +16,7 @@ st.title('Sentiment Dev App')
 st.subheader('Compute Sentiment of sentences', divider='green')
 # st.markdown('User Authentication Required')
 
-text = st.text_area('Enter Text', key='The deployment of artifical intelligence (AI) on battlefields has provided life-saving opportunities to the war figher but also introduced new security vulnerabilities')
+text = st.text_area('Enter Text', placeholder='The deployment of artifical intelligence (AI) on battlefields has provided life-saving opportunities to the war figher but also introduced new security vulnerabilities')
 run = st.button("Run", type="primary")
 
 col1, col2 = st.columns(2)
