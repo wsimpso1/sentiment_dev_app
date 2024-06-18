@@ -24,7 +24,7 @@ radio_selection = st.radio("Or select one of following sample sentences to analy
 )
 if radio_selection != None:
     text = radio_selection
-    
+
 run = st.button("Run", type="primary")
 
 col1, col2 = st.columns(2)
@@ -44,9 +44,8 @@ def run_sent_senti():
 
     sa_label = sentsa.to_class_labels(output)
     sa_prob = output[sa_label]
-    st.write('Sentence Level Results')
-    st.write('Sentiment:', sa_label)
-    st.write('Probability:', sa_prob)
+    st.write('**Sentiment**:', sa_label)
+    st.write('**Probability**:', sa_prob)
     
 def run_ent_senti():
     with st.spinner('Loading Entity Model and Preprocessing Text'):
@@ -55,10 +54,9 @@ def run_ent_senti():
     success = st.success('Complete!')
     success.empty()
 
-    st.write('Entity Level Results')
     st.write('Chosen Entity:', output[0])
-    st.write('Sentiment:', output[1]['label'])
-    st.write('Probability:', output[1]['score'])
+    st.write('**Sentiment**:', output[1]['label'])
+    st.write('**Probability**:', output[1]['score'])
 
 
 if run:
