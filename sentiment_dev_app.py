@@ -16,14 +16,15 @@ st.title('Sentiment Dev App')
 st.subheader('Compute Sentiment of sentences', divider='green')
 # st.markdown('User Authentication Required')
 
-text = st.text_area('Enter Text')
-st.write('Or select one of following sample sentences to analyze')
-st.radio(
-    "The deployment of artifical intelligence (AI) on battlefields has provided life-saving opportunities to the war figher but also introduced new security vulnerabilities.",
-    "Overall, the treaty was problematic for Vietnam, while strengthening France."
-
-
+text = st.text_area('Enter Text to Analyze')
+radio_selection = st.radio("Or select one of following sample sentences to analyze",
+    ["The deployment of artifical intelligence (AI) on battlefields has provided life-saving opportunities to the war figher but also introduced new security vulnerabilities.",
+    "Overall, the treaty was problematic for Vietnam, while strengthening France."],
+    index=None
 )
+if radio_selection != None:
+    text = radio_selection
+    
 run = st.button("Run", type="primary")
 
 col1, col2 = st.columns(2)
@@ -83,7 +84,7 @@ if run:
 
     if absa_level:
         run_ent_senti()
-        
+
         # with st.spinner('Loading Entity Model and Preprocessing Text'):
         #     absa = EntitySentimentTransformerOOB()
         #     output = absa.compute_sentiment(text, ent)
