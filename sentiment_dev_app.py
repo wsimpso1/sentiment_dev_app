@@ -6,6 +6,11 @@ import warnings
 from sentiment import TransformerSentimentOOB, EntitySentimentTransformerOOB
 warnings.filterwarnings('ignore', category=UserWarning, message='TypedStorage is deprecated')
 
+
+# start pre loading models
+sentsa = TransformerSentimentOOB()
+absa = EntitySentimentTransformerOOB()
+
     
 st.title('Sentiment Dev App')
 st.subheader('Compute Sentiment of sentences', divider='green')
@@ -23,8 +28,9 @@ if absa_level:
 if run:
     if sentence_level:
         with st.spinner('Preprocessing Text'):
-            sa = TransformerSentimentOOB()
-            output = sa.compute_sentiment(text)
+            if sentsa == None:
+                sentsa = TransformerSentimentOOB()
+            output = sentsa.compute_sentiment(text)
         success = st.success('Complete!')
         success.empty()
 
@@ -33,8 +39,9 @@ if run:
     if absa_level:
 
         with st.spinner('Preprocessing Text'):
-            sa = EntitySentimentTransformerOOB()
-            output = sa.compute_sentiment(text, ent)
+            if absa == None:
+                absa = EntitySentimentTransformerOOB()
+            output = absa.compute_sentiment(text, ent)
         success = st.success('Complete!')
         success.empty()
 
