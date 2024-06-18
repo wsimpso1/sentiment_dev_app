@@ -13,13 +13,14 @@ warnings.filterwarnings('ignore', category=UserWarning, message='TypedStorage is
 
     
 st.title('Sentiment Dev App')
-st.subheader('Compute Sentiment of sentences', divider='green')
+st.subheader('Compute the Sentiment of Sentences', divider='green')
 # st.markdown('User Authentication Required')
 
 text = st.text_area('Enter Text to Analyze')
 radio_selection = st.radio("Or select one of following sample sentences to analyze",
-    ["The deployment of artifical intelligence (AI) on battlefields has provided life-saving opportunities to the war figher but also introduced new security vulnerabilities.",
-    "Overall, the treaty was problematic for Vietnam, while strengthening France."],
+    ["Artificial Intelligence (AI) on the battlefield is a security vulnerability even if the war fighter stands to benefit.",
+     "This feature of the weapons guidance mechanism reduces the effectiveness of the entire system.",
+    "The Ambassador criticized the United Kingdom's handling of the situtation, although the outcome was ultimately advantageous."],
     index=None
 )
 if radio_selection != None:
@@ -45,6 +46,13 @@ def run_sent_senti():
 
     sa_label = sentsa.to_class_labels(output)
     sa_prob = output[sa_label]
+    
+    if sa_label == 'NEU':
+        sa_label = 'Neutral'
+    elif sa_label == 'NEG':  
+        sa_label = 'Negative'
+    elif sa_label == 'POS':
+        sa_label = 'Positive'
 
     st.subheader('Sentence Level Results')
     st.write('**Sentiment**:', sa_label)
@@ -52,6 +60,9 @@ def run_sent_senti():
     
 def run_ent_senti():
     with st.spinner('Loading Entity Model and Preprocessing Text'):
+        if ent == '':
+            st.write('No entity found. Please enter an entity.')
+            return None
         absa = EntitySentimentTransformerOOB()
         output = absa.compute_sentiment(text, ent)
     success = st.success('Complete!')
@@ -64,36 +75,18 @@ def run_ent_senti():
 
 
 if run:
-    if sentence_level and absa_level:
-        with col1:
+    with st.container(border=True):
+        cola, colb = st.columns(2)
+
+        if sentence_level and absa_level:
+            with cola:
+                run_sent_senti()
+            with colb:
+                run_ent_senti()
+
+        if sentence_level and not absa_level:
             run_sent_senti()
-        with col2:
+
+        if absa_level and not sentence_level:
             run_ent_senti()
-    if sentence_level and not absa_level:
-        run_sent_senti()
 
-        # with st.spinner('Loading Sentence Model and Preprocessing Text'):
-        #     sentsa = TransformerSentimentOOB()
-        #     output = sentsa.compute_sentiment(text)
-        # success = st.success('Complete!')
-        # success.empty()
-
-        # sa_label = sentsa.to_class_labels(output)
-        # sa_prob = output[sa_label]
-        # st.write('Sentence Level Results')
-        # st.write('Sentiment:', sa_label)
-        # st.write('Probability:', sa_prob)
-
-    if absa_level and not sentence_level:
-        run_ent_senti()
-
-        # with st.spinner('Loading Entity Model and Preprocessing Text'):
-        #     absa = EntitySentimentTransformerOOB()
-        #     output = absa.compute_sentiment(text, ent)
-        # success = st.success('Complete!')
-        # success.empty()
-
-        # st.write('Entity Level Results')
-        # st.write('Chosen Entity:', output[0])
-        # st.write('Sentiment:', output[1]['label'])
-        # st.write('Probability:', output[1]['score'])
