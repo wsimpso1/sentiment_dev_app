@@ -36,28 +36,28 @@ with col2:
 
 def run_sent_senti():
     with st.spinner('Loading Sentence Model and Preprocessing Text'):
-            sentsa = TransformerSentimentOOB()
-            output = sentsa.compute_sentiment(text)
-        success = st.success('Complete!')
-        success.empty()
+        sentsa = TransformerSentimentOOB()
+        output = sentsa.compute_sentiment(text)
+    success = st.success('Complete!')
+    success.empty()
 
-        sa_label = sentsa.to_class_labels(output)
-        sa_prob = output[sa_label]
-        st.write('Sentence Level Results')
-        st.write('Sentiment:', sa_label)
-        st.write('Probability:', sa_prob)
+    sa_label = sentsa.to_class_labels(output)
+    sa_prob = output[sa_label]
+    st.write('Sentence Level Results')
+    st.write('Sentiment:', sa_label)
+    st.write('Probability:', sa_prob)
     
 def run_ent_senti():
     with st.spinner('Loading Entity Model and Preprocessing Text'):
-            absa = EntitySentimentTransformerOOB()
-            output = absa.compute_sentiment(text, ent)
-        success = st.success('Complete!')
-        success.empty()
+        absa = EntitySentimentTransformerOOB()
+        output = absa.compute_sentiment(text, ent)
+    success = st.success('Complete!')
+    success.empty()
 
-        st.write('Entity Level Results')
-        st.write('Chosen Entity:', output[0])
-        st.write('Sentiment:', output[1]['label'])
-        st.write('Probability:', output[1]['score'])
+    st.write('Entity Level Results')
+    st.write('Chosen Entity:', output[0])
+    st.write('Sentiment:', output[1]['label'])
+    st.write('Probability:', output[1]['score'])
 
 
 if run:
@@ -67,20 +67,23 @@ if run:
         with col2:
             run_ent_senti()
     if sentence_level:
-        with st.spinner('Loading Sentence Model and Preprocessing Text'):
-            sentsa = TransformerSentimentOOB()
-            output = sentsa.compute_sentiment(text)
-        success = st.success('Complete!')
-        success.empty()
+        run_sent_senti()
 
-        sa_label = sentsa.to_class_labels(output)
-        sa_prob = output[sa_label]
-        st.write('Sentence Level Results')
-        st.write('Sentiment:', sa_label)
-        st.write('Probability:', sa_prob)
+        # with st.spinner('Loading Sentence Model and Preprocessing Text'):
+        #     sentsa = TransformerSentimentOOB()
+        #     output = sentsa.compute_sentiment(text)
+        # success = st.success('Complete!')
+        # success.empty()
+
+        # sa_label = sentsa.to_class_labels(output)
+        # sa_prob = output[sa_label]
+        # st.write('Sentence Level Results')
+        # st.write('Sentiment:', sa_label)
+        # st.write('Probability:', sa_prob)
 
     if absa_level:
-
+        run_ent_senti()
+        
         # with st.spinner('Loading Entity Model and Preprocessing Text'):
         #     absa = EntitySentimentTransformerOOB()
         #     output = absa.compute_sentiment(text, ent)
@@ -91,4 +94,3 @@ if run:
         # st.write('Chosen Entity:', output[0])
         # st.write('Sentiment:', output[1]['label'])
         # st.write('Probability:', output[1]['score'])
-
