@@ -3,7 +3,7 @@ import pandas as pd
 from transformers import pipeline
 from collections import Counter
 import warnings
-from sentiment import TransformerSentimentOOB
+from sentiment import TransformerSentimentOOB, EntitySentimentTransformerOOB
 warnings.filterwarnings('ignore', category=UserWarning, message='TypedStorage is deprecated')
 
     
@@ -14,32 +14,29 @@ st.subheader('Compute Sentiment of sentences', divider='green')
 text = st.text_area('Enter Text', '')
 run = st.button("Run", type="primary")
 
-# # create dataframe for preprocessing
-# inf_data = [{
-#     'id_num':0,
-#     'txt':text
-#     }]
 
-# all_data = []
-# for _ in inf_data:
-#     data = {'id':_['id_num'], 'text':_['txt']}
-#     all_data.append(data)
-
-# df = pd.DataFrame.from_dict(all_data)
+sentence_level = st.checkbox("Sentence Level Sentiment")
+absa_level = st.checkbox("Entity Level Sentiment")
+if absa_level:
+    ent = st.text_input('Enter an entity to evaluate')
 
 if run:
-    with st.spinner('Preprocessing Text'):
-        sa = TransformerSentimentOOB()
-        output = sa.compute_sentiment(text)
-    success = st.success('Complete!')
-    success.empty()
+    if sentence_level:
+        with st.spinner('Preprocessing Text'):
+            sa = TransformerSentimentOOB()
+            output = sa.compute_sentiment(text)
+        success = st.success('Complete!')
+        success.empty()
 
-    st.write(output)
+        st.write(output)
 
+    if absa_level:
 
+        with st.spinner('Preprocessing Text'):
+            sa = EntitySentimentTransformerOOB()
+            output = sa.compute_sentiment(text, ent)
+        success = st.success('Complete!')
+        success.empty()
 
-    # sa = TransformerSentimentOOB()
-    # output = sa.compute_sentiment('This treaty introduced vulnerabilities for Vietnam')
-    # sa.compute_sentiment_sentence_list(sent_lst)
-    # sa.proportion_doc_sentiment(sent_lst)
+        st.write(output)
 

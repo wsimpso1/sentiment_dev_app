@@ -1,5 +1,7 @@
 from collections import Counter
 from transformers import pipeline
+from transformers import AutoTokenizer, AutoModelForSequenceClassification
+
 
 class TransformerSentimentOOB:
     '''
@@ -60,3 +62,29 @@ class TransformerSentimentOOB:
         new_sent_dict = {subdict['label']: subdict['score'] for subdict in sentiment_scores}
         
         return new_sent_dict
+    
+class EntitySentimentTransformerOOB:
+
+    def __init__(self, model_path='yangheng/deberta-v3-large-absa-v1.1'):
+        self.tokenizer = AutoTokenizer.from_pretrained(model_path)
+        self.model = AutoModelForSequenceClassification.from_pretrained(model_path)
+        self.classifier = pipeline("text-classification", model=self.model, tokenizer=self.tokenizer)
+
+    def compute_sentiment(self, input, entity):
+        '''
+        compute sentiment using pretrained transformer model
+
+        Parameters:
+        ------------
+        input: str
+            sentence from a document
+
+        Returns:
+        ---------
+        sentiment_scores: dict
+            computed sentiment scores (3 classes)
+        '''
+        # compute sentiment scores
+        sentiment_score = (entity, self.classifier(input, text_pair=entity))
+
+        return sentiment_score
