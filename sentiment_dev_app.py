@@ -54,9 +54,9 @@ def run_ent_senti():
     success = st.success('Complete!')
     success.empty()
 
-    st.write('Chosen Entity:', output[0])
-    st.write('**Sentiment**:', output[1]['label'])
-    st.write('**Probability**:', output[1]['score'])
+    st.write('**Chosen Entity**:', output[0])
+    st.write('**Sentiment**:', output[1])
+    # st.write('**Probability**:', output[1]['score'])
 
 
 if run:
