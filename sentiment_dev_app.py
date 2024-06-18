@@ -44,6 +44,8 @@ def run_sent_senti():
 
     sa_label = sentsa.to_class_labels(output)
     sa_prob = output[sa_label]
+
+    st.subheader('Results (Sentence Level)')
     st.write('**Sentiment**:', sa_label)
     st.write('**Probability**:', sa_prob)
     
@@ -54,9 +56,10 @@ def run_ent_senti():
     success = st.success('Complete!')
     success.empty()
 
+    st.subheader('Results (Entity Level)')
     st.write('**Chosen Entity**:', output[0])
     st.write('**Sentiment**:', output[1][0]['label'])
-    # st.write('**Probability**:', output[1]['score'])
+    st.write('**Probability**:', output[1][0]['score'])
 
 
 if run:
