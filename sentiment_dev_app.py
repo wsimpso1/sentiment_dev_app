@@ -55,7 +55,7 @@ def run_ent_senti():
     success.empty()
 
     st.write('**Chosen Entity**:', output[0])
-    st.write('**Sentiment**:', output[1])
+    st.write('**Sentiment**:', output[1][0]['label'])
     # st.write('**Probability**:', output[1]['score'])
 
 
@@ -65,7 +65,7 @@ if run:
             run_sent_senti()
         with col2:
             run_ent_senti()
-    if sentence_level:
+    if sentence_level and not absa_level:
         run_sent_senti()
 
         # with st.spinner('Loading Sentence Model and Preprocessing Text'):
@@ -80,7 +80,7 @@ if run:
         # st.write('Sentiment:', sa_label)
         # st.write('Probability:', sa_prob)
 
-    if absa_level:
+    if absa_level and not sentence_level:
         run_ent_senti()
 
         # with st.spinner('Loading Entity Model and Preprocessing Text'):
